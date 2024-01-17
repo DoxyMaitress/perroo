@@ -1,4 +1,5 @@
 package com.example.perroo
+
 import DogAdapter
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -12,14 +13,13 @@ class MainActivity : AppCompatActivity() {
     private val dogViewModel: DogViewModel by viewModels()
     private lateinit var dogAdapter: DogAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configurar RecyclerView
-        val dogAdapter = DogAdapter { breed -> onBreedSelected(breed) }
+        // Inicializar RecyclerView
+        dogAdapter = DogAdapter { breed -> onBreedSelected(breed) }
         binding.recyclerViewDogs.adapter = dogAdapter
         binding.recyclerViewDogs.layoutManager = LinearLayoutManager(this)
 
@@ -36,5 +36,4 @@ class MainActivity : AppCompatActivity() {
         // Aquí puedes manejar la selección de la raza, por ejemplo, cargar imágenes de esa raza
         dogViewModel.fetchDogImages(breed)
     }
-
 }

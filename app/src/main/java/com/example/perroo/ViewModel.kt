@@ -48,6 +48,7 @@ class DogViewModel : ViewModel() {
             }
         }
     }
+
     private fun handleBreedsResponse(response: Response<Map<String, List<String>>>) {
         if (response.isSuccessful) {
             val breeds = response.body()?.keys?.toList() ?: emptyList()
