@@ -1,7 +1,7 @@
 package com.example.perroo
-
-import DogAdapter
+import com.example.perroo.DogAdapter
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -18,16 +18,15 @@ class MainActivity : AppCompatActivity() {
         val binding: ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inicializar RecyclerView
+        // Configurar RecyclerView
         dogAdapter = DogAdapter { breed -> onBreedSelected(breed) }
         binding.recyclerViewDogs.adapter = dogAdapter
         binding.recyclerViewDogs.layoutManager = LinearLayoutManager(this)
 
-        // Observar la lista de razas desde el ViewModel
         dogViewModel.dogBreeds.observe(this, Observer { breeds ->
             dogAdapter.setDogBreeds(breeds)
+            Log.d("MainActivity", "Lista de razas cargada correctamente: $breeds")
         })
-
         // Cargar las razas desde la API
         dogViewModel.fetchDogBreeds()
     }
