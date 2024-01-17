@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.perroo.DogViewModel
 import com.example.perroo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

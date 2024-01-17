@@ -1,5 +1,6 @@
 package com.example.perroo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,6 +32,7 @@ class DogViewModel : ViewModel() {
                 handleBreedsResponse(response)
             } catch (e: Exception) {
                 // Manejar el error
+                Log.e("DogViewModel", "Error fetching dog breeds", e)
             }
         }
     }
@@ -38,14 +40,14 @@ class DogViewModel : ViewModel() {
     fun fetchDogImages(breed: String) {
         viewModelScope.launch {
             try {
-                val response = apiService.getDogImages(apiKey, breed)
+                val response = apiService.getDogImages(breed, 5, apiKey)
                 handleImagesResponse(response)
             } catch (e: Exception) {
                 // Manejar el error
+                Log.e("DogViewModel", "Error fetching dog images", e)
             }
         }
     }
-
     private fun handleBreedsResponse(response: Response<Map<String, List<String>>>) {
         if (response.isSuccessful) {
             val breeds = response.body()?.keys?.toList() ?: emptyList()
@@ -53,9 +55,9 @@ class DogViewModel : ViewModel() {
         }
     }
 
-    private fun handleImagesResponse(response: Response<List<String>>) {
+    private fun handleImagesResponse(response: Response<List<Map<String, Any>>>) {
         if (response.isSuccessful) {
-            val images = response.body() ?: emptyList()
+            val images = response.body()?.mapNotNull { it["url"] as? String } ?: emptyList()
             _selectedBreedImages.postValue(images.take(5))
         }
     }
